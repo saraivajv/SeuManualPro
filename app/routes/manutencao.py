@@ -1,3 +1,4 @@
+from app.schemas.material import AdicionarMaterialSchema
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database.core import get_db
@@ -7,7 +8,7 @@ from app.services import manutencao as service
 router = APIRouter(prefix="/manutencao", tags=["Manutencao"])
 
 
-@router.post("/", response_model=ManutencaoSchema)
+@router.post("/", response_model=ManutencaoSchema, status_code=201)
 def create_manutencao(data: ManutencaoCreate, db: Session = Depends(get_db)):
     return service.create(db, data)
 
@@ -18,3 +19,11 @@ def get_manutencao(id: int, db: Session = Depends(get_db)):
     if not obj:
         raise HTTPException(status_code=404, detail="Manutencao not found")
     return obj
+
+@router.post("/{id}/materiais", response_model=ManutencaoSchema)
+def add_material_to_manutencao(
+    id: int, 
+    data: AdicionarMaterialSchema, 
+    db: Session = Depends(get_db)
+):
+    return service.add_material(db, id, data)
