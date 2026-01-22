@@ -50,3 +50,22 @@ def add_material(db: Session, manutencao_id: int, dados: AdicionarMaterialSchema
     db.commit()
     db.refresh(manutencao)
     return manutencao
+
+def update_status(db: Session, id: int, novo_status: str) -> Manutencao | None:
+    manutencao = get_by_id(db, id)
+    if not manutencao:
+        return None
+    
+    manutencao.status = novo_status
+    db.commit()
+    db.refresh(manutencao)
+    return manutencao
+
+def delete(db: Session, id: int) -> bool:
+    obj = get_by_id(db, id)
+    if not obj:
+        return False
+
+    db.delete(obj)
+    db.commit()
+    return True

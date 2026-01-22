@@ -15,7 +15,8 @@ class Manutencao(BaseColumns):
     materiais_assoc: Mapped[List[ManutencaoMaterial]] = relationship(
         "ManutencaoMaterial", 
         backref="manutencao",
-        lazy="selectin"
+        lazy="selectin",
+        cascade="all, delete-orphan"
     )
 
     # --- PROPRIEDADES PARA A API ---

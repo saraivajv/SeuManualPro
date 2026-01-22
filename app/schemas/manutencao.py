@@ -22,3 +22,5 @@ class ManutencaoSchema(ManutencaoBase):
     criado_em: datetime | None = None
     materiais: List[MaterialConsumido] = []
     custo_total_materiais: float = 0.0
+class ManutencaoUpdateStatus(CamelSchema):
+    status: str
